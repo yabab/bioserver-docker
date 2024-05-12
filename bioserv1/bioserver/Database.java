@@ -63,16 +63,7 @@ public class Database {
         );
 
         try {
-            con = (Connection) DriverManager.getConnection(
-                String.format(
-                    "jdbc:mysql://%s:3306/%s?useUnicode=true&characterEncoding=UTF-8%s",
-                    this.host,
-                    this.user,
-                    this.params
-                ), 
-                user, 
-                password
-            );
+            con = (Connection) DriverManager.getConnection(url, user, password);
         } catch (SQLException ex) {
             Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
         }
