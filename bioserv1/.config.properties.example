@@ -1,0 +1,11 @@
+# Configuration for the server
+
+# IP address for gameserver
+gs_ip=
+
+# credentials for the database
+db_user=bioserver
+db_database=bioserver
+db_password=xxxxxxxxxxxxxxxx
+db_host=bio1mysql
+db_params=&autoReconnect=true&useSSL=false
