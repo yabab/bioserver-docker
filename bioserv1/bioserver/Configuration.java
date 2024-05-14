@@ -45,7 +45,7 @@ public class Configuration {
         String propFileName = "config.properties";
 
         try {
-            this.gs_ip       = System.getenv("SERVER_API");
+            this.gs_ip       = System.getenv("SERVER_IP");
             this.db_user     = System.getenv("DB_USER");
             this.db_password = System.getenv("DB_PASSWORD");
             this.db_host     = System.getenv("DB_HOST");
