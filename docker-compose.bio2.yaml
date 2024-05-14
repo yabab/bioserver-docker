@@ -47,9 +47,9 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "bioserver2"
-      MYSQL_USER: "bioserver"
-      MYSQL_PASSWORD: "xxxxxxxxxxxxxxxx"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_HOST}
     networks:
       - bio2
     volumes:

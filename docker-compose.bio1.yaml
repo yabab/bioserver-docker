@@ -1,62 +1,66 @@
 services:
-  bio1apache:
+  bioapache:
+    container_name: ${APP_NAME}-apache
     build: 
       context: .
       dockerfile: docker/apache.Dockerfile
       args:
-        - DNAS_SRC=./bioserv1/www
-        - DNAS_DEST=/var/www/dnas/00000002
-        - FPM_HOST=bio1fpm
+        - DNAS_SRC=${DNAS_SRC}
+        - DNAS_DEST=${DNAS_DEST}
+        - FPM_HOST=${FPM_HOST}
     ports:
       - "80:80"
       - "443:443"
     depends_on:
-      - bio1mysql
+      - biomysql
     networks:
-      - bio1
+      - bio
 
-  bio1server:
+  bioserver:
+    container_name: ${APP_NAME}-server
     build: 
       context: .
       dockerfile: docker/server.Dockerfile
       args:
-        - SERVER_PATH=./bioserv1/bioserver
-        - RUN_FILE_PATH=./bioserv1/run_file1.sh
+        - SERVER_PATH=${GAME_SERVER_PATH}
+        - RUN_FILE_PATH=${GAME_RUN_FILE_PATH}
     ports:
-      - "8300:8300"
-      - "8690:8690"
+      - "${LOBBY_SERVER_PATH}:${LOBBY_SERVER_PATH}"
+      - "${GAME_SERVER_PORT}:${GAME_SERVER_PORT}"
     depends_on:
-      - bio1mysql
+      - biomysql
     networks:
-      - bio1
+      - bio
 
-  bio1fpm:
+  biofpm:
+    container_name: ${APP_NAME}-fpm
     build: 
       context: .
       dockerfile: docker/fpm.Dockerfile
       args:
-        - DNAS_SRC=./bioserv1/www
-        - DNAS_DEST=/var/www/dnas/00000002
+        - DNAS_SRC=${DNAS_SRC}
+        - DNAS_DEST=${DNAS_DEST}
     depends_on:
-      - bio1mysql
-      - bio1server
+      - biomysql
+      - bioserver
     networks:
-      - bio1
+      - bio
 
-  bio1mysql:
+  biomysql:
+    container_name: ${APP_NAME}-mysql
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: "bioserver"
-      MYSQL_USER: "bioserver"
-      MYSQL_PASSWORD: "xxxxxxxxxxxxxxxx"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_HOST}
     networks:
-      - bio1
+      - bio
     volumes:
-      - ./bioserv1/database/bioserver.sql:/docker-entrypoint-initdb.d/bioserver.sql:rw
+      - ${GAME_SERVER_PATH}/database/bioserver.sql:/docker-entrypoint-initdb.d/bioserver.sql:rw
       - ./dbdata:/var/lib/mysql
 
 networks:
-  bio1:
+  bio:
     driver: bridge
-    name: bio1-network
+    name: ${APP_NAME}-network
