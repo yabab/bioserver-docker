@@ -1,0 +1,52 @@
+services:
+  bioapache:
+    build: 
+      context: .
+      dockerfile: docker/apache.Dockerfile
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - biomysql
+    networks:
+      - bio-network
+
+  biofpm:
+    build: 
+      context: .
+      dockerfile: docker/fpm.Dockerfile
+      args:
+        - MYSQL_ROOT_PASSWORD=root
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - BIO1_DB_DATABASE=${BIO1_DB_DATABASE}
+        - BIO2_DB_DATABASE=${BIO2_DB_DATABASE}
+    env_file:
+      - .env
+    depends_on:
+      - biomysql
+    networks:
+      - bio-network
+
+  biomysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      BIO1_DB_DATABASE: ${BIO1_DB_DATABASE}
+      BIO2_DB_DATABASE: ${BIO2_DB_DATABASE}
+    networks:
+      - bio-network
+    env_file:
+      - .env
+    volumes:
+      - ./docker/vars/mysql/1_create_user.sh:/docker-entrypoint-initdb.d/1_create_user.sh
+      - ./docker/vars/mysql/2_init_b1_db.sh:/docker-entrypoint-initdb.d/2_init_b1_db.sh
+      - ./docker/vars/mysql/2_init_b2_db.sh:/docker-entrypoint-initdb.d/2_init_b2_db.sh
+      - ./dbdata:/var/lib/mysql
+
+networks:
+  bio-network:
+    driver: bridge
+    name: bio-network

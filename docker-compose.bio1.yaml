@@ -1,78 +1,26 @@
 services:
-  bioapache:
-    container_name: ${APP_NAME}-apache
-    build: 
-      context: .
-      dockerfile: docker/apache.Dockerfile
-      args:
-        - DNAS_SRC=${DNAS_SRC}
-        - DNAS_DEST=${DNAS_DEST}
-        - FPM_HOST=${FPM_HOST}
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - biomysql
-    networks:
-      - bio
-
-  bioserver:
-    container_name: ${APP_NAME}-server
+  bio1server:
     build: 
       context: .
       dockerfile: docker/server.Dockerfile
       args:
-        - SERVER_PATH=${GAME_SERVER_PATH}
-        - RUN_FILE_PATH=${GAME_RUN_FILE_PATH}
+        - SERVER_PATH=./bioserv1/bioserver
+        - RUN_FILE_PATH=./bioserv1/run_file1.sh
     environment:
       - SERVER_IP=${SERVER_IP}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=biomysql
       - JAVA_DB_PARAMS=${JAVA_DB_PARAMS}
-      - DB_DATABASE=${DB_DATABASE}
+      - DB_DATABASE=${BIO1_DB_DATABASE}
     ports:
-      - "${LOBBY_SERVER_PATH}:${LOBBY_SERVER_PATH}"
-      - "${GAME_SERVER_PORT}:${GAME_SERVER_PORT}"
-    depends_on:
-      - biomysql
+      - "8300:8300"
+      - "8690:8690"
     networks:
-      - bio
-
-  biofpm:
-    container_name: ${APP_NAME}-fpm
-    build: 
-      context: .
-      dockerfile: docker/fpm.Dockerfile
-      args:
-        - DNAS_SRC=${DNAS_SRC}
-        - DNAS_DEST=${DNAS_DEST}
-    environment:
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_DATABASE=${DB_DATABASE}
-    depends_on:
-      - biomysql
-      - bioserver
-    networks:
-      - bio
-
-  biomysql:
-    container_name: ${APP_NAME}-mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_HOST}
-    networks:
-      - bio
-    volumes:
-      - ${GAME_SERVER_PATH}/database/bioserver.sql:/docker-entrypoint-initdb.d/bioserver.sql:rw
-      - ./dbdata:/var/lib/mysql
+      - bio-network
 
 networks:
-  bio:
+  bio-network:
     driver: bridge
-    name: ${APP_NAME}-network
+    name: bio-network
+    external: true

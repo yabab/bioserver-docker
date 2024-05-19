@@ -44,27 +44,12 @@ public class Configuration {
         InputStream inputStream = null;
         String propFileName = "config.properties";
 
-        try {
-            this.gs_ip       = System.getenv("SERVER_IP");
-            this.db_user     = System.getenv("DB_USER");
-            this.db_password = System.getenv("DB_PASSWORD");
-            this.db_host     = System.getenv("DB_HOST");
-            this.db_params   = System.getenv("JAVA_DB_PARAMS");
-            this.db_database = System.getenv("DB_DATABASE");
-            
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    System.out.println("Exception: " + e);
-                }
-            }
-        }
+        this.gs_ip       = System.getenv("SERVER_IP");
+        this.db_user     = System.getenv("DB_USER");
+        this.db_password = System.getenv("DB_PASSWORD");
+        this.db_host     = System.getenv("DB_HOST");
+        this.db_params   = System.getenv("JAVA_DB_PARAMS");
+        this.db_database = System.getenv("DB_DATABASE");
     }
     
 }
