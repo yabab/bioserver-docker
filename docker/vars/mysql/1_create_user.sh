@@ -1,0 +1,3 @@
+#!/bin/sh
+mysql -uroot -p$MYSQL_ROOT_PASSWORD --execute \
+    "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';"

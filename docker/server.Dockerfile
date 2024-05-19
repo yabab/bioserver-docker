@@ -17,7 +17,6 @@ RUN javac -cp /usr/share/java/mysql-connector-j-8.0.32.jar:. ./bioserver/*.java
 
 RUN mkdir -p bin/bioserver \
     && mv bioserver/*.class bin/bioserver \
-    && mv bioserver/config.properties . \
     && mkdir lib \
     && cp /usr/share/java/mysql-connector-j-8.0.32.jar lib/mysql-connector.jar 
 
