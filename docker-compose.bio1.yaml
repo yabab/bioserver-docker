@@ -13,6 +13,8 @@ services:
       - DB_HOST=biomysql
       - JAVA_DB_PARAMS=${JAVA_DB_PARAMS}
       - DB_DATABASE=${BIO1_DB_DATABASE}
+    env_file:
+      - .env
     ports:
       - "8300:8300"
       - "8690:8690"
