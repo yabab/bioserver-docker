@@ -46,6 +46,19 @@ services:
       - ./docker/vars/mysql/2_init_b2_db.sh:/docker-entrypoint-initdb.d/2_init_b2_db.sh
       - ./dbdata:/var/lib/mysql
 
+  biodns:
+    build: 
+      context: .
+      dockerfile: docker/dns.Dockerfile
+      args:
+        - SERVER_IP=${SERVER_IP}
+        - ROUTER_IP=${ROUTER_IP}
+    ports:
+      - "53:53/udp"
+    cap_add:
+      - NET_ADMIN
+
+
 networks:
   bio-network:
     driver: bridge

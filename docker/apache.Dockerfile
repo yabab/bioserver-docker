@@ -35,11 +35,11 @@ RUN apt-get install -y libpcre3 \
     libxslt1-dev \
     libxslt1.1
 
-RUN wget https://dlcdn.apache.org/httpd/httpd-2.4.59.tar.gz \
+RUN wget https://dlcdn.apache.org/httpd/httpd-2.4.61.tar.gz \
     && wget https://downloads.apache.org/apr/apr-1.6.5.tar.gz \
     && wget https://downloads.apache.org/apr/apr-util-1.6.3.tar.gz \
-    && tar xzvf httpd-2.4.59.tar.gz \
-    && cd httpd-2.4.59/srclib/ \
+    && tar xzvf httpd-2.4.61.tar.gz \
+    && cd httpd-2.4.61/srclib/ \
     && tar xzvf ../../apr-1.6.5.tar.gz \
     && tar xzvf ../../apr-util-1.6.3.tar.gz \
     && ln -s apr-1.6.5 apr \
