@@ -1,0 +1,43 @@
+unknown.png
+
+ゲームバージョンチェック中です
+しばらくお待ちくだきい。
+
+メインデ-夕が見つかりませんでした。
+
+Checking game version
+Please wait for a while.
+
+The main date was not found.
+
+
+
+failure.png
+
+ゲ‐ムに戻る為の準備をしています
+しばらくお待ちくだきい
+
+I am preparing to return to the game
+I'll wait for a while
+
+Disconnecting
+
+
+
+afterpatch.png
+
+メインデ夕が見つかりませんでした。
+
+ゲ‐ムバ‐ジョンが更新されているために
+メインデ‐夕がないとオンラインプレイができません。
+
+ネッ卜ワ-ク接続を中止して
+メニユ‐画面に戻りますか?
+
+The main data could not be found.
+
+because the game is updated
+you cannot play online without a main schedule.
+
+Do you want to stop network connection 
+and return to menu screen?
