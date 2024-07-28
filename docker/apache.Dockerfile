@@ -8,9 +8,10 @@ WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y build-essential wget
 
+COPY ./docker/deps/openssl-1.0.2q.tar.gz .
+
 #Setting up weak ciphers
-RUN wget https://www.openssl.org/source/openssl-1.0.2q.tar.gz \
-    && tar xzvf openssl-1.0.2q.tar.gz \
+RUN tar xzvf openssl-1.0.2q.tar.gz \
     && cd openssl-1.0.2q \
     && ./config --prefix=/opt/openssl-1.0.2 \
         --openssldir=/etc/ssl \
@@ -20,6 +21,8 @@ RUN wget https://www.openssl.org/source/openssl-1.0.2q.tar.gz \
         -Wl,-rpath=/opt/openssl-1.0.2/lib \
     && make \
     && make install
+
+RUN rm openssl-1.0.2q.tar.gz && rm -rf openssl-1.0.2q
 
 COPY ./docker/vars/apache/arm-linux-gnueabihf.conf /etc/ld.so.conf.d/arm-linux-gnueabihf.conf
 
@@ -35,10 +38,11 @@ RUN apt-get install -y libpcre3 \
     libxslt1-dev \
     libxslt1.1
 
-RUN wget https://dlcdn.apache.org/httpd/httpd-2.4.61.tar.gz \
-    && wget https://downloads.apache.org/apr/apr-1.6.5.tar.gz \
-    && wget https://downloads.apache.org/apr/apr-util-1.6.3.tar.gz \
-    && tar xzvf httpd-2.4.61.tar.gz \
+COPY ./docker/deps/httpd-2.4.61.tar.gz .
+COPY ./docker/deps/apr-1.6.5.tar.gz .
+COPY ./docker/deps/apr-util-1.6.3.tar.gz .
+
+RUN tar xzvf httpd-2.4.61.tar.gz \
     && cd httpd-2.4.61/srclib/ \
     && tar xzvf ../../apr-1.6.5.tar.gz \
     && tar xzvf ../../apr-util-1.6.3.tar.gz \
@@ -52,6 +56,10 @@ RUN wget https://dlcdn.apache.org/httpd/httpd-2.4.61.tar.gz \
     && make \
     && make install \
     && apt-get install -y php libapache2-mod-php7.4 
+
+RUN rm httpd-2.4.61.tar.gz && rm -rf httpd-2.4.61 \
+    && rm apr-1.6.5.tar.gz && rm -rf apr-1.6.5 \
+    && rm apr-util-1.6.3.tar.gz && rm -rf apr-util-1.6.3
 
 COPY --chown=0:0 ./docker/vars/apache/etc /etc/dnas 
 COPY --chown=www-data:www-data ./docker/vars/php/www /var/www
