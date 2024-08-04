@@ -44,7 +44,6 @@ services:
       - ./docker/vars/mysql/1_create_user.sh:/docker-entrypoint-initdb.d/1_create_user.sh
       - ./docker/vars/mysql/2_init_b1_db.sh:/docker-entrypoint-initdb.d/2_init_b1_db.sh
       - ./docker/vars/mysql/2_init_b2_db.sh:/docker-entrypoint-initdb.d/2_init_b2_db.sh
-      - ./dbdata:/var/lib/mysql
 
   biodns:
     build: 
