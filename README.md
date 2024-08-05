@@ -113,6 +113,7 @@ make disable-systemd-resolved
 ```
 sudo docker compose -f docker-compose.infra.yaml up -d
 ```
+If some process is bound to a necessary port, use 'sudo ss -tulpn | grep ":(port)"' to discover the offending processes and use 'sudo kill PID' to get rid of them.
 
 3.
 ```
