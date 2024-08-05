@@ -25,3 +25,123 @@ Just run `docker compose -f docker-compose.bio1.yaml up -d` for outbreak 1 and `
 ### After shutdown
 **DO NOT FORGET TO ENABLE systemd-resolved**\
 Simply run `make enable-systemd-resolved`
+
+# STEPS TO RUN IN A PUBLIC DEBIAN LINUX INSTANCE
+
+## SETUP
+
+1.
+```
+sudo apt-get update
+```
+
+2.
+```
+sudo apt-get upgrade -y
+```
+
+3.
+```
+sudo apt-get install ca-certificates curl gnupg lsb-release make git-all -y
+```
+
+4.
+```
+sudo mkdir -p /etc/apt/keyrings
+```
+
+5.
+```
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+```
+
+6.
+```
+echo \
+"deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+$(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+7.
+```
+sudo apt-get update
+```
+
+8.
+```
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
+```
+
+9.
+```
+git clone https://github.com/yabab/bioserver-docker.git
+```
+
+10.
+```
+cd bioserver-docker
+```
+
+11.
+```
+cp .env.example .env
+```
+
+12.
+```
+nano .env (Add Public IPv4 address to SERVER_IP and ROUTER_IP)
+```
+
+13.
+```
+sudo docker compose -f docker-compose.infra.yaml -f docker-compose.bio1.yaml -f docker-compose.bio2.yaml build
+```
+
+14.
+```
+sudo docker pull mysql:5.7
+```
+
+## START UP
+
+1.
+```
+make disable-systemd-resolved
+```
+
+2.
+```
+sudo docker compose -f docker-compose.infra.yaml up -d
+```
+
+3.
+```
+sudo docker compose -f docker-compose.bio1.yaml up -d
+```
+
+4.
+```
+sudo docker compose -f docker-compose.bio2.yaml up -d
+```
+
+## TEAR DOWN
+
+1.
+```
+sudo docker compose -f docker-compose.bio2.yaml down -v
+```
+
+2.
+```
+sudo docker compose -f docker-compose.bio1.yaml down -v
+```
+
+3.
+```
+sudo docker compose -f docker-compose.infra.yaml down -v
+```
+
+4.
+```
+make enable-systemd-resolved
+```
