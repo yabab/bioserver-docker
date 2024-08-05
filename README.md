@@ -24,4 +24,4 @@ Just run `docker compose -f docker-compose.bio1.yaml up -d` for outbreak 1 and `
 
 ### After shutdown
 **DO NOT FORGET TO ENABLE systemd-resolved**\
-Simply run `make enable-systemd-resovled`
+Simply run `make enable-systemd-resolved`
