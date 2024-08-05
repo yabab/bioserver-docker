@@ -81,6 +81,7 @@ git clone https://github.com/yabab/bioserver-docker.git
 ```
 cd bioserver-docker
 ```
+If necessary, then checkout the correct branch; like 'git checkout publicInstance'
 
 11.
 ```
