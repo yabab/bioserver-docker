@@ -145,3 +145,5 @@ sudo docker compose -f docker-compose.infra.yaml down -v
 ```
 make enable-systemd-resolved
 ```
+
+Don't forget to enable online traffic from all sources to the instance. In case of doubt, enable all traffic to all protocols. If you're doing this, please use an SSH key because the instance will be exposed.
