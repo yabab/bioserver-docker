@@ -148,4 +148,8 @@ sudo docker compose -f docker-compose.infra.yaml down -v
 make enable-systemd-resolved
 ```
 
-Don't forget to enable online traffic from all sources to the instance. In case of doubt, enable all traffic to all protocols. If you're doing this, please use an SSH key because the instance will be exposed.
+Don't forget to enable online traffic from all sources to the instance. In case of doubt, enable all traffic to all protocols. If you're doing this, please use an SSH key because the instance will be exposed. 
+
+In rare cases, the server may have trouble connecting to the MySQL database; the game gets stuck at 'Connecting...' and times out. In those cases, tear down the server and infrastructure, delete the dbdata folder (and everything in it) and recreate dbdata empty. Restart everything.
+
+I have also experienced 'Network Error due to Instability' when starting a new scenario after playing through a scenario with friends, only solution to that is restarting the server and infrastructure AFAIK.
